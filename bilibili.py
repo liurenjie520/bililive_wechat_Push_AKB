@@ -89,7 +89,7 @@ def get_real_url(rid):
 
 
 def binali():
-    rel = get_real_url(3)
+    rel = get_real_url(21314309)
     s=''
     p = ''
 
@@ -108,7 +108,7 @@ def binali():
 if __name__ == '__main__':
     # print(binali())
     fasongneir3=str(binali())
-    titl=pi.roominfotitle(3)
+    titl=pi.roominfotitle(21314309)
     titl=str(titl)
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     url = 'https://tdtt.top/send'
 
 
-    fasongneir = pi.roominfostr(3)+'真实地址:\n' + fasongneir3
+    fasongneir = pi.roominfostr(21314309)+'真实地址:\n' + fasongneir3
     fasongneir=str(fasongneir)
 
 
