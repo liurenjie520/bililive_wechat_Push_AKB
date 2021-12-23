@@ -35,19 +35,19 @@ def roominfostr(ridd):
     room_id = str(room_id)
     uid = str(uid)
 
-    response = etree.HTML(text=description)
-    # print(dir(response))
-    # print(response.xpath('string(.)'))
-    line = response.xpath('string(.)')
-    # line = '<p>宁波大学</p>'
+#     response = etree.HTML(text=description)
+#     # print(dir(response))
+#     # print(response.xpath('string(.)'))
+#     line = response.xpath('string(.)')
+#     # line = '<p>宁波大学</p>'
 
-    regex = r'</?p>'
+#     regex = r'</?p>'
 
-    result = re.sub(regex, "", line, re.I)
+#     result = re.sub(regex, "", line, re.I)
 
-    # print(result)
+#     # print(result)
 
-    description = result
+#     description = result
 
     if live_status == 1:
         live_status = '已开播'
@@ -55,7 +55,7 @@ def roominfostr(ridd):
         live_status = '未开播'
         otherStyleTime = ''
 
-    roominfostr =  '本次直播主题：' + title + '\n' + '直播间简介：' + description  + '本次开播时间：' + otherStyleTime + '\n' + '当前直播人气：' + online + '\n' + '房间号：' + room_id + '\n' + '用户UID：' + uid + '\n' + '开播状态：' + live_status + '\n'
+    roominfostr =  '本次直播主题：' + title + '\n' + '直播间简介：' + description   + '\n'+ '本次开播时间：' + otherStyleTime + '\n' + '当前直播人气：' + online + '\n' + '房间号：' + room_id + '\n' + '用户UID：' + uid + '\n' + '开播状态：' + live_status + '\n'
 
     print(roominfostr)
     return roominfostr
