@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from bs4 import BeautifulSoup
 from lxml import etree
+from django.template.defaultfilters import striptags
 
 
 
@@ -34,6 +35,8 @@ def roominfostr(ridd):
     online = online + '人'
     room_id = str(room_id)
     uid = str(uid)
+    description = str(description)
+    description = striptags(description)
 
 #     response = etree.HTML(text=description)
 #     # print(dir(response))
@@ -68,5 +71,7 @@ def roominfotitle(ridd):
                             headers=headers, timeout=10)
 
     title = json.loads(response.text)['data']['room_info']['title']
+    title=str(title)
+    title=striptags(title)
     return title
 
