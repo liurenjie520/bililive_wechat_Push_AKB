@@ -5,9 +5,8 @@
 # qn=10000原画
 import json
 import time
-
-import requests
 import pi
+import requests
 
 
 class BiliBili:
@@ -30,11 +29,13 @@ class BiliBili:
         }
         with requests.Session() as self.s:
             res = self.s.get(r_url, headers=self.header, params=param).json()
+            time.sleep(2)
         if res['msg'] == '直播间不存在':
-            raise Exception(f'bilibili {rid} {res["msg"]}')
+            raise Exception(f'房间号 {rid} {res["msg"]}')
         live_status = res['data']['live_status']
+        time.sleep(2)
         if live_status != 1:
-            raise Exception(f'bilibili {rid} 未开播')
+            raise Exception(f'房间号 {rid} 未开播')
         self.real_room_id = res['data']['room_id']
 
     def get_real_url(self, current_qn: int = 10000) -> dict:
@@ -50,15 +51,18 @@ class BiliBili:
         }
         res = self.s.get(url, headers=self.header, params=param).json()
         stream_info = res['data']['playurl_info']['playurl']['stream']
+        time.sleep(2)
         qn_max = 0
 
         for data in stream_info:
             accept_qn = data['format'][0]['codec'][0]['accept_qn']
+            time.sleep(2)
             for qn in accept_qn:
                 qn_max = qn if qn > qn_max else qn_max
         if qn_max != current_qn:
             param['qn'] = qn_max
             res = self.s.get(url, headers=self.header, params=param).json()
+            time.sleep(2)
             stream_info = res['data']['playurl_info']['playurl']['stream']
 
         stream_urls = {}
@@ -71,7 +75,9 @@ class BiliBili:
                 for i, info in enumerate(url_info):
                     host = info['host']
                     extra = info['extra']
+                    time.sleep(4)
                     stream_urls[f'[线路{i + 1}]:'] = f'{host}{base_url}{extra}'
+                    time.sleep(4)
                 break
         return stream_urls
 
@@ -88,43 +94,63 @@ def get_real_url(rid):
 
 
 
-def binali():
-    rel = get_real_url(21314309)
-    s=''
+def binali(rid):
+
+    rel = get_real_url(rid)
+    # 21314309
+    s = ''
     p = ''
 
     for key in rel:
-
-
-        xl=key  # 拿到key
-        dz=rel[key]  # 拿到value，实现对value的遍历
-        s='\n'+xl+'\n'+dz+'\n'
+        xl = key  # 拿到key
+        dz = rel[key]  # 拿到value，实现对value的遍历
+        s = '\n' + xl + '\n' + dz + '\n'
+        time.sleep(2)
         p += s
-
+        time.sleep(2)
 
     return p
 
 
-if __name__ == '__main__':
-    # print(binali())
-    fasongneir3=str(binali())
-    titl=pi.roominfotitle(21314309)
-    titl=str(titl)
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'accept-encoding': "gzip, deflate, br"
-    }
 
 
-    url = 'https://tdtt.top/send'
+#
+# if __name__ == '__main__':
+#     # print(binali())
+#     try:
+#         fasongneir3 = str(binali(921076))
+#
+#         imgpost = 'https://push.bot.qw360.cn/send/e54011f0-f9aa-11eb-806f-9354f453c154'
+#         headers = {'Content-Type': 'application/json'}
+#
+#         infoo = pi.roominfostr(921076)
+#         infoo = str(infoo)
+#
+#         fasongneir = infoo + '真实地址:\n' + fasongneir3
+#         postdata = json.dumps({"msg": fasongneir})
+#         time.sleep(4)
+#         repp = requests.post(url=imgpost, data=postdata, headers=headers)
+#     except:
+#         print("未开播")
 
 
-    fasongneir = pi.roominfostr(21314309)+'真实地址:\n' + fasongneir3
-    fasongneir=str(fasongneir)
 
 
-    data = {'content': fasongneir, 'title': titl, 'alias': 'liurenjie520'}
-    r = requests.post(url, data,headers=headers)
+def bililive(roomid):
 
-    print(r.text)
+    try:
 
+        fasongneir3 = str(binali(roomid))
+
+        imgpost = 'https://push.bot.qw360.cn/send/e54011f0-f9aa-11eb-806f-9354f453c154'
+        headers = {'Content-Type': 'application/json'}
+
+        infoo = pi.roominfostr(roomid)
+        infoo = str(infoo)
+
+        fasongneir = infoo + '真实地址:\n' + fasongneir3
+        postdata = json.dumps({"msg": fasongneir})
+        time.sleep(4)
+        repp = requests.post(url=imgpost, data=postdata, headers=headers)
+    except:
+        print("未开播")
